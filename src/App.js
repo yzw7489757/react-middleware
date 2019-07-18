@@ -1,26 +1,53 @@
 import React from 'react';
+import {connect} from 'react-redux'
+import {Random} from 'mockjs'
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function App(props) {
+  const {shopList,addShop} = props
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <button 
+    onClick={()=>addShop({
+      shopName:Random.cname(),
+      shopPrice:Random.natural(100, 10000),
+      desc:Random.ctitle(5),
+      id:Random.id()
+    })}>
+    ADD SHOP
+    </button>
+
+    <ul className='shopList'>
+        {
+          shopList.map(d=>{
+            return (
+              <li key={d.id}>
+                <img src={logo} alt={d.name}/>
+                <h4>{d.shopName}</h4>
+                <p>{d.shopPrice}</p>
+                <span>{d.desc}</span>
+              </li>
+            )
+          })
+        }
+        </ul>
     </div>
   );
 }
+function mapStateToProps(state) {
+  return { shopList:state.shopList }
+}
 
-export default App;
+function mapDispatchToProps(dispatch) {
+  return { 
+    addShop:(shopInfo)=>{
+      dispatch({
+        type:"ADD_SHOP",
+        data:shopInfo
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps,null,{pure:false})(App);
