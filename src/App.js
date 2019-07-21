@@ -1,21 +1,22 @@
 import React from 'react';
-import {connect} from 'react-redux'
-import {Random} from 'mockjs'
+import { connect } from 'react-redux'
+import { Random } from 'mockjs'
 import logo from './logo.svg';
 import './App.css';
 
 function App(props) {
-  const {shopList,addShop} = props
+  const {shopList, addShop} = props
   return (
     <div className="App">
     <button 
-    onClick={()=>addShop({
-      shopName:Random.cname(),
-      shopPrice:Random.natural(100, 10000),
-      desc:Random.ctitle(5),
-      id:Random.id()
-    })}>
-    ADD SHOP
+      className='addingNewGoods'
+      onClick={()=>addShop({
+        shopName:Random.cname(),
+        shopPrice:Random.natural(100, 10000),
+        desc:Random.ctitle(5),
+        id:Random.id()
+      })}>
+      ADD SHOP
     </button>
 
     <ul className='shopList'>

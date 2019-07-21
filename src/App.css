@@ -21,3 +21,9 @@
 .shopList>li>img{
   width:200px;
 }
+
+.addingNewGoods{
+  position: fixed;
+  right:0;
+  top:50%;
+}
