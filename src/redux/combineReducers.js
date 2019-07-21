@@ -66,10 +66,7 @@ function assertReducerShape(reducers) {
   Object.keys(reducers).forEach(key => {
     const reducer = reducers[key]
     const initialState = reducer(undefined, { type: ActionTypes.INIT })
-    console.log('key: ', key);
-    console.log('initialState: ', initialState);
     const unknown = reducer(undefined, { type: ActionTypes.PROBE_UNKNOWN_ACTION() })
-    console.log('unknown: ', unknown);
     if (typeof initialState === 'undefined') {
       throw new Error(
         `Reducer "${key}" returned undefined during initialization. ` +
@@ -79,7 +76,6 @@ function assertReducerShape(reducers) {
           `you can use null instead of undefined.`
       )
     }
-
     if ( typeof unknown === 'undefined' ) {
       throw new Error(
         `Reducer "${key}" returned undefined when probed with a random type. ` +
@@ -136,7 +132,6 @@ export default function combineReducers(reducers) {
 
   let shapeAssertionError
   try {
-    console.log('finalReducers: ', (finalReducers));
     assertReducerShape(finalReducers)
   } catch (e) {
     shapeAssertionError = e

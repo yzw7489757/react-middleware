@@ -13,36 +13,31 @@ const logger = store => next => action => {
   return returnValue
 }
 
-const changeTitle = store => next => action => {
-  console.log('changeTitle before', store.getState())
-  const returnValue = next(action)
-  console.log('changeTitle after', store.getState())
-  return returnValue
-}
+// const changeTitle = store => next => action => {
+//   console.log('changeTitle before', store.getState())
+//   const returnValue = next(action)
+//   console.log('changeTitle after', store.getState())
+//   return returnValue
+// }
 
-const handlerAction = store => next => action => {
-  console.log('action: ', action);
-  action = {
-    ...action,
-    data:{
-      ...action.data,
-      shopPrice:action.data.shopPrice + '.00'
-    }
-  }
-  const returnValue = next(action)
-  return returnValue
-}
+// const handlerAction = store => next => action => {
+//   console.log('action: ', action);
+//   action = {
+//     ...action,
+//     data:{
+//       ...action.data,
+//       shopPrice:action.data.shopPrice + '.00'
+//     }
+//   }
+//   const returnValue = next(action)
+//   return returnValue
+// }
 
 export default function configStore(preloadedState){
   const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(
-    combineReducers({
-      ShopState:ShopState,
-      my:(state={a:1},action)=>{
-        return state
-      }
-    }),
+    ShopState,
     preloadedState,
-    composeEnhancer(applyMiddleware(logger,changeTitle,handlerAction)))
+    composeEnhancer(applyMiddleware(logger)))
   return store;
 }

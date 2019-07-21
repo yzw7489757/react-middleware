@@ -39,7 +39,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
         'together to a single function.'
     )
   }
-
+  // 兼容不传preloadedState情况，变量交换
   if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
     enhancer = preloadedState
     preloadedState = undefined
@@ -47,13 +47,16 @@ export default function createStore(reducer, preloadedState, enhancer) {
 
   if (typeof enhancer !== 'undefined') {
     if (typeof enhancer !== 'function') {
+      // 校验enhancer
       throw new Error('Expected the enhancer to be a function.')
     }
-
+    console.log(enhancer(createStore)(reducer))
+    // 返回创建增强后的store
     return enhancer(createStore)(reducer, preloadedState)
   }
 
   if (typeof reducer !== 'function') {
+    // 校验reducer
     throw new Error('Expected the reducer to be a function.')
   }
 

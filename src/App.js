@@ -36,7 +36,7 @@ function App(props) {
   );
 }
 function mapStateToProps(state) {
-  return { shopList:state.ShopState.shopList }
+  return { shopList:state.shopList }
 }
 
 function mapDispatchToProps(dispatch) {

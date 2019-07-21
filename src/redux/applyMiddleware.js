@@ -17,22 +17,28 @@ import compose from './compose'
  * @returns {Function} A store enhancer applying the middleware.
  */
 export default function applyMiddleware(...middlewares) {
+   // 返回一个函数A，函数A的参数应该是一个createStore函数。
   return createStore => (...args) => {
+    // 先创建store，或者说，创建已经被前者增强过的store
     const store = createStore(...args)
+    // 如果还没有改造前，被调用直接抛出错误
     let dispatch = () => {
       throw new Error(
         'Dispatching while constructing your middleware is not allowed. ' +
           'Other middleware would not be applied to this dispatch.'
       )
     }
-
+    // 暂存增强前的store
     const middlewareAPI = {
       getState: store.getState,
       dispatch: (...args) => dispatch(...args)
     }
+    // 遍历中间件 call(oldStore)，改造store，得到改造后的store数组
     const chain = middlewares.map(middleware => middleware(middlewareAPI))
+    // 组合中间件，将改造前的dispatch传入，每个中间件都将得到一个改造/增强过后的dispatch。
     dispatch = compose(...chain)(store.dispatch)
 
+    // 最终返回一个加强后的createStore()函数
     return {
       ...store,
       dispatch
