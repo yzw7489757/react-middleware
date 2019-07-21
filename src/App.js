@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { Random } from 'mockjs'
 import logo from './logo.svg';
-import './App.css';
 
 function App(props) {
   const {shopList, addShop} = props
@@ -37,7 +36,7 @@ function App(props) {
   );
 }
 function mapStateToProps(state) {
-  return { shopList:state.shopList }
+  return { shopList:state.ShopState.shopList }
 }
 
 function mapDispatchToProps(dispatch) {
