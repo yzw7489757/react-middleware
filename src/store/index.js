@@ -1,4 +1,4 @@
-import { createStore,applyMiddleware, compose, combineReducers } from '../redux/index.js'
+import { createStore,applyMiddleware, compose } from '../redux/index.js'
 import ShopState from './reducer'
 
 /**
@@ -35,9 +35,10 @@ const logger = store => next => action => {
 
 export default function configStore(preloadedState){
   const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const enhancer = applyMiddleware(logger)
   const store = createStore(
     ShopState,
     preloadedState,
-    composeEnhancer(applyMiddleware(logger)))
+    composeEnhancer(enhancer,enhancer))
   return store;
 }

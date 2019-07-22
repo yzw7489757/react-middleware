@@ -17,7 +17,7 @@ import compose from './compose'
  * @returns {Function} A store enhancer applying the middleware.
  */
 export default function applyMiddleware(...middlewares) {
-   // 返回一个函数A，函数A的参数应该是一个createStore函数。
+   // 返回一个enhancer增强器，enhancer的参数应该是一个createStore函数。
   return createStore => (...args) => {
     // 先创建store，或者说，创建已经被前者增强过的store
     const store = createStore(...args)
@@ -38,7 +38,7 @@ export default function applyMiddleware(...middlewares) {
     // 组合中间件，将改造前的dispatch传入，每个中间件都将得到一个改造/增强过后的dispatch。
     dispatch = compose(...chain)(store.dispatch)
 
-    // 最终返回一个加强后的createStore()函数
+    // 最终返回一个增强后的store
     return {
       ...store,
       dispatch
