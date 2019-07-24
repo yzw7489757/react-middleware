@@ -60,11 +60,11 @@ export default function createStore(reducer, preloadedState, enhancer) {
     throw new Error('Expected the reducer to be a function.')
   }
 
-  let currentReducer = reducer
-  let currentState = preloadedState
-  let currentListeners = []
-  let nextListeners = currentListeners
-  let isDispatching = false
+  let currentReducer = reducer // 当前reducer对象
+  let currentState = preloadedState  // 当前state对象
+  let currentListeners = [] // 当前的listeners订阅者集合, 使用subscribe进行订阅
+  let nextListeners = currentListeners // currentListeners 备份
+  let isDispatching = false // dispatch状态
 
   /**
    * This makes a shallow copy of currentListeners so we can use
@@ -87,7 +87,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
   function getState() {
     if (isDispatching) {
       throw new Error(
-        'You may not call store.getState() while the reducer is executing. ' +
+          'You may not call store.getState() while the reducer is executing. ' +
           'The reducer has already received the state as an argument. ' +
           'Pass it down from the top reducer instead of reading it from the store.'
       )
@@ -184,7 +184,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
    * Note that, if you use a custom middleware, it may wrap `dispatch()` to
    * return something else (for example, a Promise you can await).
    */
-  function dispatch(action) {
+  async function dispatch(action) {
     if (!isPlainObject(action)) {
       throw new Error(
         'Actions must be plain objects. ' +
@@ -206,6 +206,9 @@ export default function createStore(reducer, preloadedState, enhancer) {
     try {
       isDispatching = true
       currentState = currentReducer(currentState, action)
+      //  await new Promise(()=>{
+      //   setTimeout(()=>Promise.resolve(currentReducer(currentState, action)),1000)
+      // })
     } finally {
       isDispatching = false
     }

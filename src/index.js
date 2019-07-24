@@ -4,12 +4,21 @@ import {Provider} from 'react-redux'
 import configStore from './store'
 import './index.css';
 import App from './App';
-
+import {
+  Router , Route, Switch
+} from 'react-router-dom';
+import history from './router/history'
 import * as serviceWorker from './serviceWorker';
 const store = configStore()
 ReactDOM.render(
 <Provider store={store}>
-  <App />
+  <Router  history={history}>
+    <Switch>
+      <Route exact path='/' render={()=><div>/</div>}></Route>
+      <Route path='/Home' render={()=><div>/Home</div>}></Route>
+    </Switch>
+    <App />
+  </Router >
 </Provider>
 , document.getElementById('root'));
 
