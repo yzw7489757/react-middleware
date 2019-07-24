@@ -15,15 +15,17 @@ function App(props) {
     })
   },[shopList])
 
-  const addShop = () => dispatch({
-    type:'ADD_SHOP',
-    data:{
-      shopName:Random.cname(),
-      shopPrice:Random.natural(100, 10000),
-      desc:Random.ctitle(5),
-      id:Random.id()
-    }
-  })
+  const addShop = () => {
+    console.log(dispatch({
+      type:'ADD_SHOP',
+      data:{
+        shopName:Random.cname(),
+        shopPrice:Random.natural(100, 10000),
+        desc:Random.ctitle(5),
+        id:Random.id()
+      }
+    }))
+  }
   
   return (
     <div className="App">

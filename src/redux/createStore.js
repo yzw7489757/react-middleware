@@ -184,35 +184,36 @@ export default function createStore(reducer, preloadedState, enhancer) {
    * Note that, if you use a custom middleware, it may wrap `dispatch()` to
    * return something else (for example, a Promise you can await).
    */
-  async function dispatch(action) {
+  function dispatch(action) {
+    // dispatch只接受一个普通对象
     if (!isPlainObject(action)) {
       throw new Error(
         'Actions must be plain objects. ' +
           'Use custom middleware for async actions.'
       )
     }
-
+    // action type为有效参数
     if (typeof action.type === 'undefined') {
       throw new Error(
         'Actions may not have an undefined "type" property. ' +
           'Have you misspelled a constant?'
       )
     }
-
+    // 如果当前正在dispatch，抛出警告，可能不会被派发出去，因为store还没有被change完成
     if (isDispatching) {
       throw new Error('Reducers may not dispatch actions.')
     }
 
     try {
       isDispatching = true
+      // INIT 和 dispatch 都会触发这一步
+      // 将当前的 reducer 和 state 以及 action 执行以达到更新State的目的
       currentState = currentReducer(currentState, action)
-      //  await new Promise(()=>{
-      //   setTimeout(()=>Promise.resolve(currentReducer(currentState, action)),1000)
-      // })
     } finally {
+      // 无论结果如何，先结束dispatching状态
       isDispatching = false
     }
-
+    // 将现有的订阅者更新，遍历更新核心数据
     const listeners = (currentListeners = nextListeners)
     for (let i = 0; i < listeners.length; i++) {
       const listener = listeners[i]
@@ -232,6 +233,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
    * @param {Function} nextReducer The reducer for the store to use instead.
    * @returns {void}
    */
+  // 计算reducer，动态注入
   function replaceReducer(nextReducer) {
     if (typeof nextReducer !== 'function') {
       throw new Error('Expected the nextReducer to be a function.')
@@ -288,7 +290,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
   // When a store is created, an "INIT" action is dispatched so that every
   // reducer returns their initial state. This effectively populates
   // the initial state tree.
-  dispatch({ type: ActionTypes.INIT })
+  dispatch({ type: ActionTypes.INIT }) // INIT store 会触发dispatch
 
   return {
     dispatch,
