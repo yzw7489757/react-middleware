@@ -74,8 +74,9 @@ export default function createStore(reducer, preloadedState, enhancer) {
    * subscribe/unsubscribe in the middle of a dispatch.
    */
   function ensureCanMutateNextListeners() {
+    // 在 subscribe 和 unsubscribe 的时候，都会执行
     if (nextListeners === currentListeners) {
-      nextListeners = currentListeners.slice()
+      nextListeners = currentListeners.slice()  // 只有相同情况才保存快照
     }
   }
 
@@ -120,10 +121,11 @@ export default function createStore(reducer, preloadedState, enhancer) {
    * @returns {Function} A function to remove this change listener.
    */
   function subscribe(listener) {
+    // 校验订阅函数
     if (typeof listener !== 'function') {
       throw new Error('Expected the listener to be a function.')
     }
-
+    // 如果当前派发的时候添加订阅者，抛出一个错误，因为可能已经有部分action已经dispatch掉。不能保证通知到该listener
     if (isDispatching) {
       throw new Error(
         'You may not call store.subscribe() while the reducer is executing. ' +
@@ -133,30 +135,30 @@ export default function createStore(reducer, preloadedState, enhancer) {
       )
     }
 
-    let isSubscribed = true
-
-    ensureCanMutateNextListeners()
-
-    nextListeners.push(listener)
-
+    let isSubscribed = true // 订阅标记
+   
+    ensureCanMutateNextListeners() // nextListener先拷贝currentListeners保存一次快照
+    nextListeners.push(listener) // 收集此次订阅者，将在下次 dispatch 后更新该listener
+    
     return function unsubscribe() {
-      if (!isSubscribed) {
+      if (!isSubscribed) { // 防止多次解绑
         return
       }
-
+      // 同样，在dispatch的时候，禁止 unsubscribed 当前listener
       if (isDispatching) {
         throw new Error(
           'You may not unsubscribe from a store listener while the reducer is executing. ' +
             'See https://redux.js.org/api-reference/store#subscribe(listener) for more details.'
         )
       }
-
-      isSubscribed = false
-
-      ensureCanMutateNextListeners()
-      const index = nextListeners.indexOf(listener)
+    
+      isSubscribed = false // 标记为已经 unSubscribed
+      // 每次unsubscribe都要深拷贝一次 currentListeners 好让nextListener拿到最新的 [listener] ，
+       ensureCanMutateNextListeners() // 再次保存一份快照，
+      // 再对 nextListeners(也就是下次dispatch) 取消订阅当前listener。
+      const index = nextListeners.indexOf(listener)  
       nextListeners.splice(index, 1)
-      currentListeners = null
+      currentListeners = null // 防止污染 `ensureCanMutateNextListeners` 保存快照，使本次处理掉的listener被重用
     }
   }
 

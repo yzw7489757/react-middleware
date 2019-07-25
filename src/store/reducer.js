@@ -15,7 +15,7 @@ export default (state = ShopState, action)=>{
       ...newState,
       shopList:newState.shopList.concat(action.data)
     }
-    action.data.fn()
+    // action.data.fn()
     break
     default:
     break

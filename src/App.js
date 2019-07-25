@@ -10,10 +10,11 @@ const { subscribe ,getState, dispatch } = store()
 function App(props) {
   let [shopList,setShopList] = useState(getState().shopList)
   useEffect(()=>{
-    subscribe(()=>{
+    const cancel = subscribe(()=>{
+      if(getState().shopList.length>6) cancel()
       setShopList(getState().shopList)
     })
-  },[shopList])
+  },[])
 
   const addShop = async () => {
     dispatch({
