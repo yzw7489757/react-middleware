@@ -11,14 +11,11 @@ export default (state = ShopState, action)=>{
   let newState = {...state}
   switch(action.type){
     case 'ADD_SHOP': //添加商品
-   
     newState = {
       ...newState,
       shopList:newState.shopList.concat(action.data)
     }
-    break
-    case 'Route': 
-      console.log('Route')
+    action.data.fn()
     break
     default:
     break

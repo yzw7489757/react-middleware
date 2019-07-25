@@ -136,6 +136,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
     let isSubscribed = true
 
     ensureCanMutateNextListeners()
+
     nextListeners.push(listener)
 
     return function unsubscribe() {
@@ -217,7 +218,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
     const listeners = (currentListeners = nextListeners)
     for (let i = 0; i < listeners.length; i++) {
       const listener = listeners[i]
-      listener()
+      listener() // 将下文的subscribe收集的订阅者通知更新
     }
 
     return action

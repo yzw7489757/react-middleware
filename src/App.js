@@ -15,18 +15,20 @@ function App(props) {
     })
   },[shopList])
 
-  const addShop = () => {
-    console.log(dispatch({
+  const addShop = async () => {
+    dispatch({
       type:'ADD_SHOP',
       data:{
         shopName:Random.cname(),
         shopPrice:Random.natural(100, 10000),
         desc:Random.ctitle(5),
-        id:Random.id()
+        id:Random.id(),
+        fn:()=>subscribe(()=>console.log(123)) // -----添加函数准备在dispatch的期间去执行它
       }
-    }))
+    })
+    
   }
-  
+  console.log(shopList)
   return (
     <div className="App">
       <Link to='/Home'>我去Home</Link>
@@ -40,7 +42,7 @@ function App(props) {
 
     <ul className='shopList'>
         {
-          shopList.map(d=>{
+          shopList&&shopList.map(d=>{
             return (
               <li key={d.id}>
                 <img src={logo} alt={d.name}/>
