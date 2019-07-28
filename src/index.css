@@ -5,10 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  padding:20px;
 }
 
 .App {
-  text-align: center;
+  margin-top:20px;
 }
 
 .App-logo {
@@ -35,4 +37,9 @@ body {
   position: fixed;
   right:0;
   top:50%;
+}
+code{
+  width:100%;
+  display: block;
+  text-align:left;
 }

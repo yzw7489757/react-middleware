@@ -1,7 +1,7 @@
 function bindActionCreator(actionCreator, dispatch) {
   return function() {
-    return dispatch(actionCreator.apply(this, arguments))
-  }
+    return dispatch(actionCreator.apply(this, arguments));
+  };
 }
 
 /**
@@ -27,7 +27,7 @@ function bindActionCreator(actionCreator, dispatch) {
  */
 export default function bindActionCreators(actionCreators, dispatch) {
   if (typeof actionCreators === 'function') {
-    return bindActionCreator(actionCreators, dispatch)
+    return bindActionCreator(actionCreators, dispatch);
   }
 
   if (typeof actionCreators !== 'object' || actionCreators === null) {
@@ -36,15 +36,15 @@ export default function bindActionCreators(actionCreators, dispatch) {
         actionCreators === null ? 'null' : typeof actionCreators
       }. ` +
         `Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?`
-    )
+    );
   }
 
-  const boundActionCreators = {}
+  const boundActionCreators = {};
   for (const key in actionCreators) {
-    const actionCreator = actionCreators[key]
+    const actionCreator = actionCreators[key];
     if (typeof actionCreator === 'function') {
-      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch)
+      boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
     }
   }
-  return boundActionCreators
+  return boundActionCreators;
 }
