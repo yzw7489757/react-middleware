@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Random } from 'mockjs';
 import logo from '../logo.svg';
-
+import bindActionCreators from '../redux/bindActionCreators';
+import * as shop from 'store/ShopList/actionCreators';
 function App(props) {
   const { addShop, shopList } = props;
 
@@ -46,13 +47,6 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return { 
-    addShop: (shopInfo) => {
-      dispatch({
-        type: "ADD_SHOP",
-        data: shopInfo
-      });
-    }
-  };
+  return bindActionCreators(shop, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App);

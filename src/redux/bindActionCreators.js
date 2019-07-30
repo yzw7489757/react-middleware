@@ -1,4 +1,5 @@
 function bindActionCreator(actionCreator, dispatch) {
+  // 用apply将action进行this显示绑定
   return function() {
     return dispatch(actionCreator.apply(this, arguments));
   };
@@ -27,10 +28,11 @@ function bindActionCreator(actionCreator, dispatch) {
  */
 export default function bindActionCreators(actionCreators, dispatch) {
   if (typeof actionCreators === 'function') {
+    // 如果是函数直接绑定this
     return bindActionCreator(actionCreators, dispatch);
   }
 
-  if (typeof actionCreators !== 'object' || actionCreators === null) {
+  if (typeof actionCreators !== 'object' || actionCreators === null) { // 校验 action
     throw new Error(
       `bindActionCreators expected an object or a function, instead received ${
         actionCreators === null ? 'null' : typeof actionCreators
@@ -40,11 +42,13 @@ export default function bindActionCreators(actionCreators, dispatch) {
   }
 
   const boundActionCreators = {};
+  // 如果是以import * as actions 方式引入的
   for (const key in actionCreators) {
     const actionCreator = actionCreators[key];
     if (typeof actionCreator === 'function') {
+      // 就遍历成一个普通对象，其action继续处理this显示绑定
       boundActionCreators[key] = bindActionCreator(actionCreator, dispatch);
     }
   }
-  return boundActionCreators;
+  return boundActionCreators; // 将绑定后的actions返回
 }

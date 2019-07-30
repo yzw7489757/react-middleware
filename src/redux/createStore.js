@@ -289,7 +289,6 @@ export default function createStore(reducer, preloadedState, enhancer) {
       }
     };
   }
-  console.log(observable());
   // When a store is created, an "INIT" action is dispatched so that every
   // reducer returns their initial state. This effectively populates
   // the initial state tree.

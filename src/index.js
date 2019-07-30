@@ -2,6 +2,7 @@ import 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import configStore from 'store/index';
 import './index.css';
 import { ConnectedRouter } from 'connected-react-router';
@@ -14,8 +15,10 @@ const { store, injectAsyncReducer } = configStore();
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <PrivateRoute injectAsyncReducer={injectAsyncReducer} store={store}></PrivateRoute>
-      <LazyReducer/>
+      <BrowserRouter history={history}>
+        <PrivateRoute injectAsyncReducer={injectAsyncReducer} store={store}></PrivateRoute>
+        <LazyReducer/>
+      </BrowserRouter>
     </ConnectedRouter>
   </Provider>
   , document.getElementById('root'));

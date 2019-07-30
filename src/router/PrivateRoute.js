@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router-dom';
 
 const PrivateRoute = (props) => {
   const { injectAsyncReducer, store } = props;
-  console.log('store: ', store);
   return (
     <Suspense fallback={<div>loading...</div>}>
       <Switch>
