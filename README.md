@@ -1,3 +1,3 @@
 ## 学习笔记
 
-针对react-redux中的applyMiddleware 和 中间件的理解。希望对你们有所帮助。
+针对redux源码的理解(含备注)。希望对你们有所帮助。
