@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function LazyReducer(props) {
   let segment = [];
   for (const attr in props) {
-    !['dispatch'].includes(attr) && segment.push(<code key={attr}><pre>{attr} : {JSON.stringify(props[attr])}</pre></code>);
+    !['dispatch'].includes(attr) && segment.push(<code key={attr}><pre>{attr} : {JSON.stringify(props[attr], null, 4)}</pre></code>);
   }
   
   return (
@@ -13,10 +13,12 @@ function LazyReducer(props) {
       <div className='reducer'>
         { segment }
       </div>
-      <Link to='/'><button>go Index</button></Link> <br />
-      <Link to='/Home'><button>go Home</button></Link> <br />
-      <Link to='/User'><button>go User</button></Link> <br />
-      <Link to='/ShopList'><button>go ShopList</button></Link> <br />
+      <div className='linkWrap'>
+        <Link to='/'><button>go Index</button></Link> <br />
+        <Link to='/Home'><button>go Home</button></Link> <br />
+        <Link to='/User'><button>go User</button></Link> <br />
+        <Link to='/ShopList'><button>go ShopList</button></Link> <br />
+      </div>
     </div>
   );
 }

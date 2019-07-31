@@ -17,12 +17,14 @@ export default function configStore(initialState) {
     initialState,
     composeEnhancer(enhancer)
   );
+  
   store.asyncReducers = {};//  隔离防止对store其他属性的修改
 
   function injectAsyncReducer(store, name, asyncReducer) {
     store.asyncReducers[name] = asyncReducer;
     store.replaceReducer(createReducer(store.asyncReducers));
   }
+  
   return {
     store,
     injectAsyncReducer

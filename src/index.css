@@ -34,12 +34,21 @@ body {
 }
 
 .addingNewGoods{
-  position: fixed;
-  right:0;
-  top:50%;
+  margin:0 auto;
+}
+.reducer{
+  display: flex;
+  flex-flow: row nowrap;
 }
 code{
-  width:100%;
-  display: block;
+  margin-right:20px;
   text-align:left;
+  border:1px solid #eee;
+  padding:5px;
+}
+.linkWrap{
+  position: fixed;
+  right:0;
+  top:30%;
+  text-align: right;
 }

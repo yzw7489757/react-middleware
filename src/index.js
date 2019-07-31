@@ -1,4 +1,3 @@
-import 'react-hot-loader';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -12,11 +11,12 @@ import LazyReducer from 'views/LazyReducer';
 
 import * as serviceWorker from './serviceWorker';
 const { store, injectAsyncReducer } = configStore();
+
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <BrowserRouter history={history}>
-        <PrivateRoute injectAsyncReducer={injectAsyncReducer} store={store}></PrivateRoute>
+      <BrowserRouter>
+        <PrivateRoute injectAsyncReducer={injectAsyncReducer} store={store} />
         <LazyReducer/>
       </BrowserRouter>
     </ConnectedRouter>

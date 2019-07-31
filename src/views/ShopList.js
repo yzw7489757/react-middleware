@@ -4,6 +4,7 @@ import { Random } from 'mockjs';
 import logo from '../logo.svg';
 import bindActionCreators from '../redux/bindActionCreators';
 import * as shop from 'store/ShopList/actionCreators';
+
 function App(props) {
   const { addShop, shopList } = props;
 
